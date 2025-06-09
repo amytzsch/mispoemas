@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Poemas</title>
+</head>
+<body>
+  <h1>Mis Poemas</h1>
+  <div id="poemContainer"></div>
+  <a href="agregar.html">➕ Añadir nuevo poema</a>
+
+  <script>
+    function sharePoem(button) {
+      const poem = button.parentElement;
+      const title = poem.querySelector('.poem-title').textContent;
+      const body = poem.querySelector('.poem-body').textContent;
+      const text = `"${title}"\n\n${body}`;
+      if (navigator.share) {
+        navigator.share({ title: title, text: text }).catch(err => console.log('Error al compartir:', err));
+      } else {
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Poema copiado al portapapeles.');
+        });
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('poemContainer');
+      const poemas = JSON.parse(localStorage.getItem('poemas')) || [];
+
+      poemas.forEach(poema => {
+        const div = document.createElement('div');
+        div.className = 'poem';
+
+        const title = document.createElement('div');
+        title.className = 'poem-title';
+        title.textContent = poema.titulo;
+
+        const body = document.createElement('div');
+        body.className = 'poem-body';
+        body.textContent = poema.contenido;
+
+        const share = document.createElement('button');
+        share.textContent = 'Compartir';
+        share.onclick = () => sharePoem(share);
+
+        div.appendChild(title);
+        div.appendChild(body);
+        div.appendChild(share);
+        container.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>

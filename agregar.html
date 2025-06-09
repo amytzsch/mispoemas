@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Añadir Poema</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom, #fde6f2, #fff0f5);
+      color: #4b2e2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 2.5em;
+      color: #b23a48;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 600px;
+      width: 100%;
+    }
+    input, textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-family: 'Georgia', serif;
+      font-size: 1em;
+    }
+    button {
+      background-color: #c94c4c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    a.back {
+      margin-top: 30px;
+      text-decoration: none;
+      background: #ffb6c1;
+      padding: 10px 20px;
+      border-radius: 10px;
+      color: #4b2e2e;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Añadir un nuevo poema</h1>
+  <form onsubmit="guardarPoema(event)">
+    <input type="text" id="titulo" placeholder="Título del poema" required />
+    <textarea id="contenido" placeholder="Escribe tu poema aquí..." rows="8" required></textarea>
+    <button type="submit">Guardar</button>
+  </form>
+  <a href="index.html" class="back">← Volver a la página principal</a>
+
+  <script>
+    function guardarPoema(event) {
+      event.preventDefault();
+      const titulo = document.getElementById('titulo').value.trim();
+      const contenido = document.getElementById('contenido').value.trim();
+      const poema = { titulo, contenido };
+      const existentes = JSON.parse(localStorage.getItem('poemas')) || [];
+      existentes.push(poema);
+      localStorage.setItem('poemas', JSON.stringify(existentes));
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
